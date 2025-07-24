@@ -63,7 +63,8 @@ function App() {
       const resultMessage = `🔍 URL Scan Results for: ${urlToScan}:
     - ✅ Safe: ${response.data.harmless || 0}
     - ⚠️ Suspicious: ${response.data.suspicious || 0}
-    - ❌ Malicious: ${response.data.malicious || 0}`;
+    - ❌ Malicious: ${response.data.malicious || 0}
+    short explanation:`;
       // Send to chat
       await sendMessageLogic(resultMessage, currentSessionId);
       setUrlToScan('');
