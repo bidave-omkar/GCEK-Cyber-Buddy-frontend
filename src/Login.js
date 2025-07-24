@@ -21,60 +21,69 @@ function Login({ onAuth }) {
   }, [location.state]);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, {
+  e.preventDefault();
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/api/auth/login`,
+      {
         email,
         password,
-      }, {
+      },
+      {
+        withCredentials: true, // ✅ Important for cookies/sessions
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        }
-      });
-      onAuth(res.data.token);
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
-    }
-  };
+        },
+      }
+    );
+    onAuth(res.data.token);
+  } catch (err) {
+    setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+  }
+};
 
   const handleGoogleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        // Get user info using the access token
-        const userInfo = await axios.get(
-          'https://www.googleapis.com/oauth2/v3/userinfo',
-          { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
-        );
+  onSuccess: async (tokenResponse) => {
+    try {
+      // Get user info using the access token
+      const userInfo = await axios.get(
+        'https://www.googleapis.com/oauth2/v3/userinfo',
+        { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
+      );
 
-        // Send user info to your backend
-        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/google`, {
+      // Send user info to your backend
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth/google`,
+        {
           email: userInfo.data.email,
           name: userInfo.data.name,
           picture: userInfo.data.picture,
-        }, {
+        },
+        {
+          withCredentials: true, // ✅ Required for cross-origin cookies/sessions
           headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          }
-        });
-
-        onAuth(res.data.token);
-      } catch (err) {
-        if (err.response?.data?.code === 'GOOGLE_ACCOUNT_NOT_REGISTERED') {
-          setError('This Google account is not registered. Please sign up first.');
-        } else {
-          setError(err.response?.data?.message || 'Google login failed. Please try again.');
+          },
         }
-        console.error('Google Login Error:', err);
+      );
+
+      onAuth(res.data.token);
+    } catch (err) {
+      if (err.response?.data?.code === 'GOOGLE_ACCOUNT_NOT_REGISTERED') {
+        setError('This Google account is not registered. Please sign up first.');
+      } else {
+        setError(err.response?.data?.message || 'Google login failed. Please try again.');
       }
-    },
-    onError: (error) => {
-      setError('Google login failed. Please try again.');
-      console.error('Google Login Error:', error);
-    },
-    scope: 'openid profile email'
-  });
+      console.error('Google Login Error:', err);
+    }
+  },
+  onError: (error) => {
+    setError('Google login failed. Please try again.');
+    console.error('Google Login Error:', error);
+  },
+  scope: 'openid profile email'
+});
+
 
   return (
     <div className="max-w-md mx-auto p-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg shadow-2xl transition-colors">
