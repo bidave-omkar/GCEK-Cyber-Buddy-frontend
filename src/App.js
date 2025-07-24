@@ -49,7 +49,7 @@ function App() {
 
     try {
       const response = await axios.post(
-        '/api/chat/virustotal-scan',
+        `${process.env.REACT_APP_BACKEND_URL}/api/chat/virustotal-scan`,
         { url: urlToScan },
         {
           headers: {
