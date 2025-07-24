@@ -10,7 +10,7 @@ function ForgotPassword({ onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}//api/auth/forgot-password`, { email });
       setMessage('If this email exists, a reset link has been sent.');
       setTimeout(() => navigate('/login'), 3000);
     } catch (err) {

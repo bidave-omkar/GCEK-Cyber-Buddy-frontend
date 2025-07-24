@@ -10,7 +10,7 @@ function Register({ onAuth }) {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', {
+      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/register`, {
         email,
         password,
       });
@@ -30,7 +30,7 @@ function Register({ onAuth }) {
         );
         
         // Send user info to your backend with isRegistering flag
-        const res = await axios.post('http://localhost:5000/api/auth/google', {
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/google`, {
           email: userInfo.data.email,
           name: userInfo.data.name,
           picture: userInfo.data.picture,

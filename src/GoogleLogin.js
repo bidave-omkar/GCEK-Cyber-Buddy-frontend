@@ -5,7 +5,7 @@ const GoogleLogin = ({ onSuccess, onError }) => {
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        const res = await axios.post('http://localhost:5000/api/auth/google', {
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/google`, {
           token: tokenResponse.access_token,
         });
         onSuccess(res.data.token);
