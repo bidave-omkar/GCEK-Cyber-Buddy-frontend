@@ -26,6 +26,11 @@ function Login({ onAuth }) {
       const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, {
         email,
         password,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
       });
       onAuth(res.data.token);
     } catch (err) {
@@ -41,14 +46,19 @@ function Login({ onAuth }) {
           'https://www.googleapis.com/oauth2/v3/userinfo',
           { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
         );
-        
+
         // Send user info to your backend
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/google`, {
           email: userInfo.data.email,
           name: userInfo.data.name,
           picture: userInfo.data.picture,
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
         });
-        
+
         onAuth(res.data.token);
       } catch (err) {
         if (err.response?.data?.code === 'GOOGLE_ACCOUNT_NOT_REGISTERED') {
@@ -69,7 +79,7 @@ function Login({ onAuth }) {
   return (
     <div className="max-w-md mx-auto p-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg shadow-2xl transition-colors">
       <h2 className="text-2xl font-bold text-center mb-2">Login</h2>
-      
+
       {/* Success message for password reset */}
       {successMessage && (
         <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-lg text-center">
@@ -116,16 +126,16 @@ function Login({ onAuth }) {
         onClick={handleGoogleLogin}
         className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2 px-4 rounded-md transition duration-200"
       >
-        <img 
-          src="https://www.google.com/favicon.ico" 
-          alt="Google" 
+        <img
+          src="https://www.google.com/favicon.ico"
+          alt="Google"
           className="w-5 h-5"
         />
         Continue with Google
       </button>
 
       <p className="text-center mt-4">
-        <button 
+        <button
           onClick={() => navigate('/forgot-password')}
           className="text-blue-500 hover:underline bg-transparent border-none cursor-pointer"
         >
@@ -137,7 +147,7 @@ function Login({ onAuth }) {
 
       <p className="text-center mt-4">
         Don't have an account?{' '}
-        <button 
+        <button
           onClick={() => navigate('/register')}
           className="text-blue-500 hover:underline bg-transparent border-none cursor-pointer"
         >

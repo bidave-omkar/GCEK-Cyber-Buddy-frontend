@@ -13,6 +13,11 @@ function Register({ onAuth }) {
       const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/register`, {
         email,
         password,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
       });
       onAuth(res.data.token);
     } catch (err) {
@@ -28,18 +33,23 @@ function Register({ onAuth }) {
           'https://www.googleapis.com/oauth2/v3/userinfo',
           { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
         );
-        
+
         // Send user info to your backend with isRegistering flag
-        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/google`, {
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/aapi/auth/google`, {
           email: userInfo.data.email,
           name: userInfo.data.name,
           picture: userInfo.data.picture,
           isRegistering: true
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
         });
-        
+
         onAuth(res.data.token);
       } catch (err) {
-        const errorMessage = err.response?.data?.error 
+        const errorMessage = err.response?.data?.error
           ? `Google registration failed: ${err.response.data.error}`
           : err.response?.data?.message || 'Google registration failed. Please try again.';
         setError(errorMessage);
@@ -56,7 +66,7 @@ function Register({ onAuth }) {
   return (
     <div className="max-w-md mx-auto p-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg shadow-2xl transition-colors">
       <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
-      
+
       <form onSubmit={handleRegister} className="space-y-4">
         <div>
           <input
@@ -96,16 +106,16 @@ function Register({ onAuth }) {
         onClick={handleGoogleRegister}
         className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-2 px-4 rounded-md transition duration-200"
       >
-        <img 
-          src="https://www.google.com/favicon.ico" 
-          alt="Google" 
+        <img
+          src="https://www.google.com/favicon.ico"
+          alt="Google"
           className="w-5 h-5"
         />
         Continue with Google
       </button>
 
       {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
-      
+
       <p className="mt-4 text-center">
         Already have an account? <a href="/login" className="text-blue-600 hover:underline">Login here</a>
       </p>

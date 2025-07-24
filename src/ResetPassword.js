@@ -26,6 +26,11 @@ function ResetPassword() {
         token,
         email,
         password
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
       });
       setMessage('Password updated successfully! Redirecting...');
       setTimeout(() => navigate('/login', { state: { passwordReset: true } }), 1500);
@@ -45,15 +50,15 @@ function ResetPassword() {
       </h1>
       <h6 className="sm:text-2xl text-gray-600 dark:text-gray-300 mb-8 text-center">
         "A software developed to educate and protect users from cybercrime while offering seamless support!"
-      </h6>   
+      </h6>
       <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg shadow-2xl transition-colors">
         <h2 className="text-2xl font-bold text-center mb-6">Reset Password</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="relative">
-            <input type="password" placeholder="New password" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full px-4 py-2 border -md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black dark:text-white bg-white dark:bg-gray-700"/>
-          </div>          
+            <input type="password" placeholder="New password" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full px-4 py-2 border -md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black dark:text-white bg-white dark:bg-gray-700" />
+          </div>
           <div className="relative">
-            <input type="password" placeholder="Confirm new password" autoComplete="new-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black dark:text-white bg-white dark:bg-gray-700"/> 
+            <input type="password" placeholder="Confirm new password" autoComplete="new-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black dark:text-white bg-white dark:bg-gray-700" />
           </div>
           <button type="submit" disabled={isLoading} className={`w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ${isLoading ? 'opacity-50' : ''}`}>
             {isLoading ? 'Updating...' : 'Update Password'}

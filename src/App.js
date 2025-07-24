@@ -91,7 +91,11 @@ function App() {
         userIndex: userMsgIndex,
         newText,
       }, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
       });
 
       const { userMessage, aiMessage } = response.data;
@@ -277,7 +281,11 @@ function App() {
   useEffect(() => {
     if (token) {
       axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/chat/history`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
       })
         .then(response => {
           const history = response.data.history || [];
@@ -367,7 +375,11 @@ function App() {
 
       // Make the request using the full payload
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/chat`, payload, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
       });
 
 
@@ -462,7 +474,11 @@ function App() {
 
     try {
       await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/chat/${sessionIdToDelete}`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
       });
 
       const updatedSessions = chatSessions.filter(session => session._id !== sessionIdToDelete);
@@ -736,8 +752,8 @@ function App() {
           <div className="flex flex-col gap-4 w-full px-1" style={{ minHeight: 'max-content' }}>
             {messages.map((msg, index) => (
               <div key={index} className={`flex ${msg.sender === 'user' ? (msg.text.startsWith('🔍 URL Scan Results for:') ? 'justify-start' : 'justify-end') : 'justify-start '} w-full`}>
-                <div className={`relative max-w-[90%] rounded-lg p-3 break-words ${msg.sender === 'user'? (msg.text.startsWith('🔍 URL Scan Results for:')? 'bg-gray-100 dark:bg-gray-700 border order-gray-200 dark:border-gray-600': 'bg-blue-500 text-white'): 'bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600'}`}
-                  style={{ wordBreak: 'break-word', overflowWrap: 'break-word', whiteSpace: 'pre-wrap'}}>
+                <div className={`relative max-w-[90%] rounded-lg p-3 break-words ${msg.sender === 'user' ? (msg.text.startsWith('🔍 URL Scan Results for:') ? 'bg-gray-100 dark:bg-gray-700 border order-gray-200 dark:border-gray-600' : 'bg-blue-500 text-white') : 'bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600'}`}
+                  style={{ wordBreak: 'break-word', overflowWrap: 'break-word', whiteSpace: 'pre-wrap' }}>
                   {msg.sender === 'ai' ? (
                     <div className="prose dark:prose-invert max-w-none text-base">
                       <ReactMarkdown remarkPlugins={[remarkGfm]} components={{

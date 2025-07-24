@@ -7,6 +7,11 @@ const GoogleLogin = ({ onSuccess, onError }) => {
       try {
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/google`, {
           token: tokenResponse.access_token,
+        }, {
+          headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+          }
         });
         onSuccess(res.data.token);
       } catch (err) {
