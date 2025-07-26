@@ -10,7 +10,7 @@ function ForgotPassword({ onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}//api/auth/forgot-password`, { email }, {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/forgot-password`, { email }, {
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
@@ -27,7 +27,7 @@ function ForgotPassword({ onSuccess }) {
     <div className="min-h-[635px] flex flex-col items-center justify-center px-4">
       <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-4 text-center max-w-3xl tracking-tight drop-shadow-lg">
         <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient">
-          AI Chatbot: Cybercrime Support
+          GCEK Cyber Buddy
         </span>
       </h1>
       <h6 className="sm:text-2xl text-gray-600 dark:text-gray-300 mb-8 text-center">
